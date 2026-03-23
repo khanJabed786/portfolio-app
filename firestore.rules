@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.uid in [
+          "sXpatzAuxzPEFhbePQYFgHG3pYm2",
+          "RyTrbyMwS6gNkKPlzAyNRgGIxqo1"
+        ];
+    }
+
+    // Profile document: public read, admin write
+    match /public/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Public projects: public read, admin write
+    match /publicProjects/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Contact messages:
+    // - public can create
+    // - only admin can read/update/delete
+    match /contactMessages/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Analytics events:
+    // - public can create
+    // - only admin can read/update/delete
+    match /analyticsEvents/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}

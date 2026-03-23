@@ -1,0 +1,29 @@
+/* stylelint-disable-next-line at-rule-no-unknown */
+@tailwind base;
+/* stylelint-disable-next-line at-rule-no-unknown */
+@tailwind components;
+/* stylelint-disable-next-line at-rule-no-unknown */
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4b 100%);
+  animation: backgroundCycle 20s ease-in-out infinite;
+  color: rgba(255, 255, 255, 0.92);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  overflow-x: hidden;
+  transition: background 0.8s ease, color 0.8s ease;
+}
+
+body[data-theme="light"] {
+  color: #1a1a1a;
+}
+
+body[data-theme="dark"] {
+  color: rgba(255, 255, 255, 0.92);
+}

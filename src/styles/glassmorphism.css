@@ -1,0 +1,104 @@
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px;
+}
+
+/* Project cards - Purple/Pink gradient */
+.card-project {
+  background: rgba(168, 85, 247, 0.08);
+  border: 1.5px solid rgba(168, 85, 247, 0.3);
+  box-shadow: 0 8px 32px rgba(168, 85, 247, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.card-project:hover {
+  border-color: rgba(168, 85, 247, 0.6);
+  box-shadow: 0 12px 48px rgba(168, 85, 247, 0.25);
+}
+
+/* Skills cards - Blue/Cyan gradient */
+.card-skill {
+  background: rgba(56, 189, 248, 0.08);
+  border: 1.5px solid rgba(56, 189, 248, 0.3);
+  box-shadow: 0 8px 32px rgba(56, 189, 248, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.card-skill:hover {
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow: 0 12px 48px rgba(56, 189, 248, 0.25);
+}
+
+/* Achievements cards - Green/Teal gradient */
+.card-achievement {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1.5px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.card-achievement:hover {
+  border-color: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 12px 48px rgba(16, 185, 129, 0.25);
+}
+
+/* Experience cards - Orange/Amber gradient */
+.card-experience {
+  background: rgba(251, 146, 60, 0.08);
+  border: 1.5px solid rgba(251, 146, 60, 0.3);
+  box-shadow: 0 8px 32px rgba(251, 146, 60, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.card-experience:hover {
+  border-color: rgba(251, 146, 60, 0.6);
+  box-shadow: 0 12px 48px rgba(251, 146, 60, 0.25);
+}
+
+/* Contact form - Pink/Rose gradient */
+.card-contact {
+  background: rgba(236, 72, 153, 0.08);
+  border: 1.5px solid rgba(236, 72, 153, 0.3);
+  box-shadow: 0 8px 32px rgba(236, 72, 153, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.card-contact:hover {
+  border-color: rgba(236, 72, 153, 0.6);
+  box-shadow: 0 12px 48px rgba(236, 72, 153, 0.25);
+}
+
+/* About/Hero section - Indigo gradient */
+.card-about {
+  background: rgba(99, 102, 241, 0.08);
+  border: 1.5px solid rgba(99, 102, 241, 0.3);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.card-about:hover {
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 12px 48px rgba(99, 102, 241, 0.25);
+}

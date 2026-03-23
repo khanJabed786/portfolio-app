@@ -1,0 +1,193 @@
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 30%;
+  }
+  50% {
+    background-position: 100% 70%;
+  }
+  100% {
+    background-position: 0% 30%;
+  }
+}
+
+/* Modern dark background with gradient animation - Light Gray */
+@keyframes backgroundCycle {
+  0% {
+    background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4b 100%);
+  }
+  25% {
+    background: linear-gradient(135deg, #3a3a52 0%, #4a4a6a 100%);
+  }
+  50% {
+    background: linear-gradient(135deg, #2a2a42 0%, #3d3d5a 100%);
+  }
+  75% {
+    background: linear-gradient(135deg, #353553 0%, #454566 100%);
+  }
+  100% {
+    background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4b 100%);
+  }
+}
+
+/* Light mode background - Light Gray */
+@keyframes backgroundCycleLight {
+  0% {
+    background: linear-gradient(135deg, #e8e8f0 0%, #d9d9e8 100%);
+  }
+  25% {
+    background: linear-gradient(135deg, #f0f0f5 0%, #e5e5ed 100%);
+  }
+  50% {
+    background: linear-gradient(135deg, #ececf3 0%, #dcdce5 100%);
+  }
+  75% {
+    background: linear-gradient(135deg, #f2f2f7 0%, #e8e8f0 100%);
+  }
+  100% {
+    background: linear-gradient(135deg, #e8e8f0 0%, #d9d9e8 100%);
+  }
+}
+
+body[data-theme="dark"] {
+  animation: backgroundCycle 20s ease-in-out infinite;
+}
+
+body[data-theme="light"] {
+  animation: backgroundCycleLight 20s ease-in-out infinite;
+}
+
+.animated-gradient {
+  background: radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.25), transparent 40%),
+    radial-gradient(circle at 90% 40%, rgba(16, 185, 129, 0.18), transparent 45%),
+    radial-gradient(circle at 30% 90%, rgba(236, 72, 153, 0.18), transparent 42%),
+    linear-gradient(120deg, #070a12, #0b1020, #070a12);
+  background-size: 200% 200%;
+  animation: gradientShift 10s ease-in-out infinite;
+}
+
+/* Page fade-in */
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: pageFadeIn 520ms ease both;
+}
+
+/* Ripple effect */
+.ripple-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 10%, transparent 12%);
+  transform: scale(10);
+  opacity: 0;
+  transition: transform 520ms ease, opacity 520ms ease;
+}
+
+.ripple-btn:active::after {
+  transform: scale(0);
+  opacity: 1;
+  transition: 0s;
+}
+
+/* Subtle float */
+@keyframes floatY {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.float-card {
+  animation: floatY 4.8s ease-in-out infinite;
+}
+
+/* Icon bounce */
+@keyframes bounceSmall {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.icon-bounce:hover {
+  animation: bounceSmall 550ms ease-in-out;
+}
+
+/* Custom cursor */
+.custom-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+.cursor-glow {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.22), transparent 55%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9998;
+  filter: blur(2px);
+}
+
+/* Easter egg overlay */
+.easter-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.22), transparent 55%),
+    radial-gradient(circle at 30% 40%, rgba(99, 102, 241, 0.22), transparent 55%),
+    radial-gradient(circle at 70% 70%, rgba(16, 185, 129, 0.16), transparent 55%);
+  animation: gradientShift 2.8s ease-in-out infinite;
+}
+
+/* Gradient animation for text */
+@keyframes animateGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: animateGradient 3s ease infinite;
+}

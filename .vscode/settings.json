@@ -1,0 +1,11 @@
+{
+  "css.lint.compatibleVendorPrefixes": "warning",
+  "css.lint.vendorPrefix": "warning",
+  "css.lint.duplicateProperties": "ignore",
+  "css.lint.universalSelector": "ignore",
+  "css.lint.unknownAtRules": "ignore",
+  "stylelint.enable": true,
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  }
+}
