@@ -4,6 +4,5 @@ export const ADMIN_ALLOWLIST_EMAILS = [
 ];
 
 export const ADMIN_ALLOWLIST_UIDS = [
-  "sXpatzAuxzPEFhbePQYFgHG3pYm2",
-  "RyTrbyMwS6gNkKPlzAyNRgGIxqo1" // Your Firebase Account
+  "29cQpvdtDfbZg5bAMLB2azUYNj32" // javedkhan1foru@gmail.com
 ];
