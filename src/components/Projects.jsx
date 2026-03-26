@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../config/firebase.js";
 import Modal from "./common/Modal.jsx";
@@ -18,6 +18,10 @@ export default function Projects() {
   // Carousel state for each project card
   const [projectCarousels, setProjectCarousels] = useState({});
   const [lastManualInteraction, setLastManualInteraction] = useState({});
+
+  // Mobile carousel support
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const projectsCarouselRef = useRef(null);
 
   // Fetch projects from Firebase
   useEffect(() => {
@@ -84,6 +88,66 @@ export default function Projects() {
       console.log("⏹️ Lightbox auto-play stopped");
     };
   }, [lb.open, lb.images]);
+
+  // Handle window resize to detect mobile
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Auto-scroll projects carousel on mobile
+  useEffect(() => {
+    if (!isMobile || !projectsCarouselRef.current || items.length < 2) return;
+
+    const container = projectsCarouselRef.current;
+    const cardWidth = 352; // w-96 = 24rem = 384px (adjusted for actual content)
+    const gap = 16; // gap-4 = 1rem = 16px
+    const cardWithGap = cardWidth + gap;
+    let currentIndex = 0;
+    let animationId;
+    let isPaused = false;
+
+    const scrollToCard = () => {
+      if (isPaused) {
+        animationId = setTimeout(scrollToCard, 100);
+        return;
+      }
+
+      // Scroll to current card
+      const targetScroll = currentIndex * cardWithGap;
+      container.scrollLeft = targetScroll;
+
+      // Increment for next card
+      currentIndex = (currentIndex + 1) % items.length;
+
+      // Pause for 3 seconds before scrolling to next
+      isPaused = true;
+      animationId = setTimeout(() => {
+        isPaused = false;
+        scrollToCard();
+      }, 3000);
+    };
+
+    // Start carousel
+    animationId = setTimeout(scrollToCard, 3000);
+
+    // Pause on user interaction
+    const handleScroll = () => {
+      isPaused = true;
+      currentIndex = Math.round(container.scrollLeft / cardWithGap);
+    };
+
+    container.addEventListener('scroll', handleScroll);
+
+    return () => {
+      clearTimeout(animationId);
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, [isMobile, items]);
 
   // Auto-play carousels for project cards
   useEffect(() => {
@@ -198,149 +262,305 @@ export default function Projects() {
               </select>
             </div>
 
-            {/* Projects Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
-              {items.map((p, idx) => (
+            {/* Projects Grid (Desktop) / Carousel (Mobile) */}
+            {isMobile ? (
+              // MOBILE CAROUSEL - Auto-scrolling horizontal (one card at a time)
+              <div className="relative w-full">
                 <div
-                  key={p.id}
-                  className="group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
-                  data-aos="zoom-in"
-                  data-aos-delay={`${idx * 50}`}
+                  ref={projectsCarouselRef}
+                  className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide pb-2"
+                  style={{
+                    scrollBehavior: 'smooth',
+                    WebkitOverflowScrolling: 'touch',
+                    scrollSnapType: 'x mandatory'
+                  }}
                 >
-              {/* Image Section */}
-              {p.images?.length ? (
-                <div className="relative overflow-hidden h-48">
-                  <button
-                    onClick={() => openGallery(p, getCarouselIndex(p.id))}
-                    className="w-full h-full"
-                    title="Click to open full gallery"
-                  >
-                    <img
-                      key={`${p.id}-${getCarouselIndex(p.id)}`}
-                      src={p.images[getCarouselIndex(p.id)]}
-                      alt={`Project ${p.title}`}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23333' width='100' height='100'/%3E%3C/svg%3E";
-                      }}
-                    />
-                    
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-3">
-                      {p.images.length > 1 && (
-                        <>
+                  {items.map((p) => (
+                    <div
+                      key={p.id}
+                      className="flex-shrink-0 w-96 min-h-[450px] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20 flex flex-col"
+                      style={{ scrollSnapAlign: 'start' }}
+                    >
+                      {/* Image Section */}
+                      {p.images?.length ? (
+                        <div className="relative overflow-hidden h-48">
                           <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              prevCarousel(p.id);
-                            }}
-                            className="p-2 rounded-lg bg-white/30 hover:bg-white/50 transition text-white text-xl"
-                            title="Previous"
+                            onClick={() => openGallery(p, getCarouselIndex(p.id))}
+                            className="w-full h-full"
+                            title="Click to open full gallery"
                           >
-                            ◀
+                            <img
+                              key={`${p.id}-${getCarouselIndex(p.id)}`}
+                              src={p.images[getCarouselIndex(p.id)]}
+                              alt={`Project ${p.title}`}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                              loading="lazy"
+                              onError={(e) => {
+                                e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23333' width='100' height='100'/%3E%3C/svg%3E";
+                              }}
+                            />
+                            
+                            {/* Hover Overlay */}
+                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-3">
+                              {p.images.length > 1 && (
+                                <>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      prevCarousel(p.id);
+                                    }}
+                                    className="p-2 rounded-lg bg-white/30 hover:bg-white/50 transition text-white text-xl"
+                                    title="Previous"
+                                  >
+                                    ◀
+                                  </button>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      nextCarousel(p.id);
+                                    }}
+                                    className="p-2 rounded-lg bg-white/30 hover:bg-white/50 transition text-white text-xl"
+                                    title="Next"
+                                  >
+                                    ▶
+                                  </button>
+                                </>
+                              )}
+                            </div>
                           </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              nextCarousel(p.id);
-                            }}
-                            className="p-2 rounded-lg bg-white/30 hover:bg-white/50 transition text-white text-xl"
-                            title="Next"
+
+                          {/* Carousel Dots */}
+                          {p.images.length > 1 && (
+                            <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+                              {p.images.map((_, idx) => (
+                                <button
+                                  key={idx}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setLastManualInteraction((prev) => ({ ...prev, [p.id]: Date.now() }));
+                                    setProjectCarousels((prev) => ({
+                                      ...prev,
+                                      [p.id]: idx
+                                    }));
+                                  }}
+                                  className={`transition ${
+                                    idx === getCarouselIndex(p.id)
+                                      ? "w-4 h-2 bg-purple-400 rounded-full"
+                                      : "w-2 h-2 bg-white/40 rounded-full hover:bg-white/60"
+                                  }`}
+                                  title={`Image ${idx + 1}`}
+                                />
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ) : null}
+
+                      {/* Content Section */}
+                      <div className="p-6 space-y-4 flex-1 flex flex-col">
+                        <div className="flex items-start justify-between gap-3">
+                          <div>
+                            <h3 className="font-bold text-lg text-white group-hover:text-purple-300 transition line-clamp-2">
+                              {p.title}
+                            </h3>
+                          </div>
+                          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-400/30 whitespace-nowrap">
+                            {p.tags?.[0] ?? "Project"}
+                          </span>
+                        </div>
+
+                        <p className="text-white/70 text-sm leading-relaxed line-clamp-2">{p.description}</p>
+
+                        {/* Tech Stack */}
+                        <div className="flex flex-wrap gap-1">
+                          {p.tech.slice(0, 3).map((t) => (
+                            <span key={t} className="px-2 py-1 rounded-lg bg-white/10 text-white/80 text-xs font-medium hover:bg-white/20 transition">
+                              {t}
+                            </span>
+                          ))}
+                          {p.tech.length > 3 && (
+                            <span className="px-2 py-1 rounded-lg bg-white/10 text-white/80 text-xs font-medium">
+                              +{p.tech.length - 3}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10 mt-auto">
+                          <a
+                            href={p.live}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex-1 px-3 py-2 rounded-lg font-semibold text-sm text-center bg-purple-500/70 hover:bg-purple-500 transition"
                           >
-                            ▶
-                          </button>
-                        </>
-                      )}
+                            🚀 Live
+                          </a>
+                          <a
+                            href={`/projects/${p.id}`}
+                            className="flex-1 px-3 py-2 rounded-lg font-semibold text-sm text-center border border-white/20 hover:border-purple-400 hover:bg-white/10 transition"
+                          >
+                            📖 Case Study
+                          </a>
+                          <a
+                            href={p.github}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex-1 px-3 py-2 rounded-lg font-semibold text-sm text-center border border-white/20 hover:border-purple-400 hover:bg-white/10 transition"
+                            title="GitHub"
+                          >
+                            🐙 Code
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                  </button>
-
-                  {/* Carousel Dots */}
-                  {p.images.length > 1 && (
-                    <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
-                      {p.images.map((_, idx) => (
-                        <button
-                          key={idx}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setLastManualInteraction((prev) => ({ ...prev, [p.id]: Date.now() }));
-                            setProjectCarousels((prev) => ({
-                              ...prev,
-                              [p.id]: idx
-                            }));
-                          }}
-                          className={`transition ${
-                            idx === getCarouselIndex(p.id)
-                              ? "w-4 h-2 bg-purple-400 rounded-full"
-                              : "w-2 h-2 bg-white/40 rounded-full hover:bg-white/60"
-                          }`}
-                          title={`Image ${idx + 1}`}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : null}
-
-              {/* Content Section */}
-              <div className="p-6 space-y-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h3 className="font-bold text-lg text-white group-hover:text-purple-300 transition line-clamp-2">
-                      {p.title}
-                    </h3>
-                  </div>
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-400/30 whitespace-nowrap">
-                    {p.tags?.[0] ?? "Project"}
-                  </span>
-                </div>
-
-                <p className="text-white/70 text-sm leading-relaxed line-clamp-2">{p.description}</p>
-
-                {/* Tech Stack */}
-                <div className="flex flex-wrap gap-1">
-                  {p.tech.slice(0, 3).map((t) => (
-                    <span key={t} className="px-2 py-1 rounded-lg bg-white/10 text-white/80 text-xs font-medium hover:bg-white/20 transition">
-                      {t}
-                    </span>
                   ))}
-                  {p.tech.length > 3 && (
-                    <span className="px-2 py-1 rounded-lg bg-white/10 text-white/80 text-xs font-medium">
-                      +{p.tech.length - 3}
-                    </span>
-                  )}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
-                  <a
-                    href={p.live}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex-1 px-3 py-2 rounded-lg font-semibold text-sm text-center bg-purple-500/70 hover:bg-purple-500 transition"
-                  >
-                    🚀 Live
-                  </a>
-                  <a
-                    href={`/projects/${p.id}`}
-                    className="flex-1 px-3 py-2 rounded-lg font-semibold text-sm text-center border border-white/20 hover:border-purple-400 hover:bg-white/10 transition"
-                  >
-                    📖 Case Study
-                  </a>
-                  <a
-                    href={p.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex-1 px-3 py-2 rounded-lg font-semibold text-sm text-center border border-white/20 hover:border-purple-400 hover:bg-white/10 transition"
-                    title="GitHub"
-                  >
-                    🐙 Code
-                  </a>
                 </div>
               </div>
-            </div>
-          ))}
-            </div>
+            ) : (
+              // DESKTOP GRID
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+                {items.map((p, idx) => (
+                  <div
+                    key={p.id}
+                    className="group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
+                    data-aos="zoom-in"
+                    data-aos-delay={`${idx * 50}`}
+                  >
+                    {/* Image Section */}
+                    {p.images?.length ? (
+                      <div className="relative overflow-hidden h-48">
+                        <button
+                          onClick={() => openGallery(p, getCarouselIndex(p.id))}
+                          className="w-full h-full"
+                          title="Click to open full gallery"
+                        >
+                          <img
+                            key={`${p.id}-${getCarouselIndex(p.id)}`}
+                            src={p.images[getCarouselIndex(p.id)]}
+                            alt={`Project ${p.title}`}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                            loading="lazy"
+                            onError={(e) => {
+                              e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23333' width='100' height='100'/%3E%3C/svg%3E";
+                            }}
+                          />
+                          
+                          {/* Hover Overlay */}
+                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-3">
+                            {p.images.length > 1 && (
+                              <>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    prevCarousel(p.id);
+                                  }}
+                                  className="p-2 rounded-lg bg-white/30 hover:bg-white/50 transition text-white text-xl"
+                                  title="Previous"
+                                >
+                                  ◀
+                                </button>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    nextCarousel(p.id);
+                                  }}
+                                  className="p-2 rounded-lg bg-white/30 hover:bg-white/50 transition text-white text-xl"
+                                  title="Next"
+                                >
+                                  ▶
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </button>
+
+                        {/* Carousel Dots */}
+                        {p.images.length > 1 && (
+                          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+                            {p.images.map((_, idx) => (
+                              <button
+                                key={idx}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setLastManualInteraction((prev) => ({ ...prev, [p.id]: Date.now() }));
+                                  setProjectCarousels((prev) => ({
+                                    ...prev,
+                                    [p.id]: idx
+                                  }));
+                                }}
+                                className={`transition ${
+                                  idx === getCarouselIndex(p.id)
+                                    ? "w-4 h-2 bg-purple-400 rounded-full"
+                                    : "w-2 h-2 bg-white/40 rounded-full hover:bg-white/60"
+                                }`}
+                                title={`Image ${idx + 1}`}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ) : null}
+
+                    {/* Content Section */}
+                    <div className="p-6 space-y-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <h3 className="font-bold text-lg text-white group-hover:text-purple-300 transition line-clamp-2">
+                            {p.title}
+                          </h3>
+                        </div>
+                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-400/30 whitespace-nowrap">
+                          {p.tags?.[0] ?? "Project"}
+                        </span>
+                      </div>
+
+                      <p className="text-white/70 text-sm leading-relaxed line-clamp-2">{p.description}</p>
+
+                      {/* Tech Stack */}
+                      <div className="flex flex-wrap gap-1">
+                        {p.tech.slice(0, 3).map((t) => (
+                          <span key={t} className="px-2 py-1 rounded-lg bg-white/10 text-white/80 text-xs font-medium hover:bg-white/20 transition">
+                            {t}
+                          </span>
+                        ))}
+                        {p.tech.length > 3 && (
+                          <span className="px-2 py-1 rounded-lg bg-white/10 text-white/80 text-xs font-medium">
+                            +{p.tech.length - 3}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
+                        <a
+                          href={p.live}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex-1 px-3 py-2 rounded-lg font-semibold text-sm text-center bg-purple-500/70 hover:bg-purple-500 transition"
+                        >
+                          🚀 Live
+                        </a>
+                        <a
+                          href={`/projects/${p.id}`}
+                          className="flex-1 px-3 py-2 rounded-lg font-semibold text-sm text-center border border-white/20 hover:border-purple-400 hover:bg-white/10 transition"
+                        >
+                          📖 Case Study
+                        </a>
+                        <a
+                          href={p.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex-1 px-3 py-2 rounded-lg font-semibold text-sm text-center border border-white/20 hover:border-purple-400 hover:bg-white/10 transition"
+                          title="GitHub"
+                        >
+                          🐙 Code
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {items.length === 0 && (
               <div className="text-center py-12">
