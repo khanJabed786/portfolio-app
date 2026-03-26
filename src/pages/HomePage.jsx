@@ -33,7 +33,7 @@ export default function HomePage() {
       </ErrorBoundary>
 
       <ErrorBoundary section="About">
-        <section id="about" className="min-h-screen flex items-center py-20">
+        <section id="about" className="min-h-screen flex items-center py-12 sm:py-16">
           <div className="w-full">
             <About />
           </div>
@@ -41,7 +41,7 @@ export default function HomePage() {
       </ErrorBoundary>
 
       <ErrorBoundary section="Skills">
-        <section id="skills" className="min-h-screen flex items-center py-20">
+        <section id="skills" className="min-h-screen flex items-center py-12 sm:py-16">
           <div className="w-full">
             <Skills />
           </div>
@@ -49,7 +49,7 @@ export default function HomePage() {
       </ErrorBoundary>
 
       <ErrorBoundary section="Projects">
-        <section id="projects" className="min-h-screen flex items-center py-20">
+        <section id="projects" className="min-h-screen flex items-center py-12 sm:py-16">
           <div className="w-full">
             <Projects />
           </div>
@@ -57,7 +57,7 @@ export default function HomePage() {
       </ErrorBoundary>
 
       <ErrorBoundary section="Experience">
-        <section id="experience" className="min-h-screen flex items-center py-20">
+        <section id="experience" className="min-h-screen flex items-center py-12 sm:py-16">
           <div className="w-full">
             <Experience />
           </div>
@@ -65,7 +65,7 @@ export default function HomePage() {
       </ErrorBoundary>
                                           
       <ErrorBoundary section="Achievements">
-        <section id="achievements" className="min-h-screen flex items-center py-20">
+        <section id="achievements" className="min-h-screen flex items-center py-12 sm:py-16">
           <div className="w-full">
             <Achievements />
           </div>
@@ -77,7 +77,7 @@ export default function HomePage() {
       </ErrorBoundary>
 
       <ErrorBoundary section="Contact">
-        <section id="contact" className="min-h-screen flex items-center py-20">
+        <section id="contact" className="min-h-screen flex items-center py-12 sm:py-16">
           <div className="w-full">
             <Contact />
           </div>

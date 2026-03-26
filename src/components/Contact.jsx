@@ -77,7 +77,7 @@ export default function Contact() {
               <div className="text-xs sm:text-sm font-semibold tracking-widest text-orange-300 uppercase mb-3">
                 📍 Based In
               </div>
-              <p className="text-white/80">United States</p>
+              <p className="text-white/80">India</p>
             </div>
 
             <div>
