@@ -217,7 +217,7 @@ export default function Certificates() {
               {certificates.map((cert, index) => (
                 <div
                   key={cert.id || index}
-                  className="flex-shrink-0 w-80 min-h-96 glass group p-4 rounded-2xl border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300 flex flex-col"
+                  className="flex-shrink-0 w-80 min-h-96 glass group p-4 rounded-2xl border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300 flex flex-col card-3d function-hover"
                   style={{ scrollSnapAlign: 'start' }}
                 >
                   {/* Image */}
@@ -300,7 +300,7 @@ export default function Certificates() {
             {certificates.map((cert, index) => (
               <div
                 key={cert.id || index}
-                className="glass group p-4 sm:p-5 lg:p-6 rounded-2xl border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-2 h-full flex flex-col"
+                className="glass group p-4 sm:p-5 lg:p-6 rounded-2xl border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-2 h-full flex flex-col card-3d function-hover"
                 data-aos="fade-up"
                 data-aos-delay={index * 100}
               >
