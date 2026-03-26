@@ -121,7 +121,7 @@ export default function Hero() {
               <a
                 href={safeProfile.ctas.primary.href}
                 onClick={() => onTrack("cta_hire_me")}
-                className="ripple-btn group relative px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base overflow-hidden transition-all duration-300 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105"
+                className="ripple-btn btn-glow group relative px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base overflow-hidden transition-all duration-300 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   💼 {safeProfile.ctas.primary.label}
@@ -131,7 +131,7 @@ export default function Hero() {
               <a
                 href={safeProfile.ctas.secondary.href}
                 onClick={() => onTrack("cta_view_projects")}
-                className="ripple-btn group relative px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base border-2 border-indigo-400/50 hover:border-indigo-400 text-white/90 hover:text-white transition-all duration-300 bg-white/5 hover:bg-white/10 backdrop-blur-sm"
+                className="ripple-btn btn-scale group relative px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base border-2 border-indigo-400/50 hover:border-indigo-400 text-white/90 hover:text-white transition-all duration-300 bg-white/5 hover:bg-white/10 backdrop-blur-sm"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   🚀 {safeProfile.ctas.secondary.label}
@@ -140,7 +140,7 @@ export default function Hero() {
 
               <button
                 onClick={handleResumeDownload}
-                className="ripple-btn group relative px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base border-2 border-green-400/50 hover:border-green-400 text-white/90 hover:text-white transition-all duration-300 bg-white/5 hover:bg-white/10 backdrop-blur-sm"
+                className="ripple-btn btn-scale group relative px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base border-2 border-green-400/50 hover:border-green-400 text-white/90 hover:text-white transition-all duration-300 bg-white/5 hover:bg-white/10 backdrop-blur-sm"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   📄 {safeProfile.ctas.resume.label}

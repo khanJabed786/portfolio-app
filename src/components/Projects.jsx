@@ -203,7 +203,7 @@ export default function Projects() {
               {items.map((p, idx) => (
                 <div
                   key={p.id}
-                  className="group rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
+                  className="group card-lift rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
                   data-aos="zoom-in"
                   data-aos-delay={`${idx * 50}`}
                 >
