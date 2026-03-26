@@ -73,12 +73,20 @@ export default function Contact() {
               </a>
             </div>
 
-            <div className="p-4 sm:p-6 rounded-xl border border-orange-400/30 bg-orange-500/10">
+            <a
+              href="https://maps.google.com/?q=India"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-4 sm:p-6 rounded-xl border border-orange-400/30 bg-orange-500/10 hover:bg-orange-500/20 transition-all duration-300 cursor-pointer group function-hover"
+            >
               <div className="text-xs sm:text-sm font-semibold tracking-widest text-orange-300 uppercase mb-3">
                 📍 Based In
               </div>
-              <p className="text-white/80">India</p>
-            </div>
+              <p className="text-lg sm:text-xl font-semibold text-orange-200 group-hover:text-orange-100 transition">
+                India
+              </p>
+              <p className="text-xs text-orange-300/60 mt-2">Click to view on Google Maps</p>
+            </a>
 
             <div>
               <p className="text-sm text-white/60">
