@@ -217,7 +217,7 @@ export default function Certificates() {
               {certificates.map((cert, index) => (
                 <div
                   key={cert.id || index}
-                  className="flex-shrink-0 w-80 glass group p-4 rounded-2xl border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300 h-full flex flex-col"
+                  className="flex-shrink-0 w-80 min-h-96 glass group p-4 rounded-2xl border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300 flex flex-col"
                   style={{ scrollSnapAlign: 'start' }}
                 >
                   {/* Image */}
