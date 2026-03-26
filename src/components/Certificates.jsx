@@ -5,6 +5,7 @@ import { db } from "../config/firebase.js";
 export default function Certificates() {
   const [certificates, setCertificates] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modal, setModal] = useState({ open: false, images: [], currentIndex: 0 });
 
   useEffect(() => {
     const loadCertificates = async () => {
@@ -24,6 +25,53 @@ export default function Certificates() {
 
     loadCertificates();
   }, []);
+
+  // Format date to: "Jan 15, 2024"
+  const formatDate = (dateString) => {
+    if (!dateString) return null;
+    
+    try {
+      // Handle different date formats
+      let date;
+      if (typeof dateString === 'string') {
+        // Try parsing the string
+        date = new Date(dateString);
+      } else {
+        date = new Date(dateString);
+      }
+      
+      if (isNaN(date.getTime())) return dateString; // Return original if invalid
+      
+      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    } catch (e) {
+      return dateString; // Return original if error
+    }
+  };
+
+  const openGallery = (images) => {
+    if (images && images.length > 0) {
+      setModal({ open: true, images, currentIndex: 0 });
+    }
+  };
+
+  const closeModal = () => {
+    setModal({ ...modal, open: false });
+  };
+
+  const nextImage = () => {
+    setModal((prev) => ({
+      ...prev,
+      currentIndex: (prev.currentIndex + 1) % prev.images.length
+    }));
+  };
+
+  const prevImage = () => {
+    setModal((prev) => ({
+      ...prev,
+      currentIndex: (prev.currentIndex - 1 + prev.images.length) % prev.images.length
+    }));
+  };
 
   if (loading) {
     return (
@@ -64,24 +112,35 @@ export default function Certificates() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
           {certificates.map((cert, index) => (
             <div
-              key={index}
-              className="glass group p-4 sm:p-5 lg:p-6 rounded-2xl border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-2 cursor-pointer h-full flex flex-col"
+              key={cert.id || index}
+              className="glass group p-4 sm:p-5 lg:p-6 rounded-2xl border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-2 h-full flex flex-col"
               data-aos="fade-up"
               data-aos-delay={index * 100}
             >
               {/* Image */}
-              {cert.images && cert.images.length > 0 && (
-                <div className="mb-3 sm:mb-4 overflow-hidden rounded-xl aspect-square bg-white/5 flex-shrink-0">
+              {cert.images && cert.images.length > 0 ? (
+                <button
+                  onClick={() => openGallery(cert.images)}
+                  className="mb-3 sm:mb-4 overflow-hidden rounded-xl aspect-square bg-white/5 flex-shrink-0 cursor-pointer group/img"
+                  title="Click to view full image"
+                >
                   <img
                     src={cert.images[0]}
                     alt={cert.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300"
+                    onError={(e) => {
+                      e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23333' width='100' height='100'/%3E%3Ctext x='50' y='50' text-anchor='middle' dy='.3em' fill='%23999' font-size='14'%3EImage Error%3C/text%3E%3C/svg%3E";
+                    }}
                   />
                   {cert.images.length > 1 && (
-                    <div className="text-xs text-white/40 text-center py-1">
-                      +{cert.images.length - 1} more {cert.images.length - 1 === 1 ? 'image' : 'images'}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition flex items-center justify-center text-white text-sm font-semibold">
+                      +{cert.images.length - 1} more image{cert.images.length - 1 === 1 ? '' : 's'}
                     </div>
                   )}
+                </button>
+              ) : (
+                <div className="mb-3 sm:mb-4 aspect-square bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-xl flex items-center justify-center flex-shrink-0 text-white/40">
+                  📜
                 </div>
               )}
 
@@ -92,16 +151,16 @@ export default function Certificates() {
                 </h3>
                 <p className="text-xs sm:text-sm text-white/70 line-clamp-1">{cert.issuer}</p>
 
-                {/* Dates */}
+                {/* Dates - FORMATTED */}
                 <div className="text-xs text-white/50 space-y-1 pt-2">
                   {cert.issueDate && (
                     <div>
-                      <span className="text-white/60">Issued:</span> {cert.issueDate}
+                      <span className="text-white/60 font-medium">Issued:</span> {formatDate(cert.issueDate)}
                     </div>
                   )}
                   {cert.expiryDate && (
                     <div>
-                      <span className="text-white/60">Expires:</span> {cert.expiryDate}
+                      <span className="text-white/60 font-medium">Expires:</span> {formatDate(cert.expiryDate)}
                     </div>
                   )}
                 </div>
@@ -132,6 +191,62 @@ export default function Certificates() {
           ))}
         </div>
       </div>
+
+      {/* IMAGE MODAL */}
+      {modal.open && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={closeModal}
+        >
+          <div 
+            className="relative max-w-2xl w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              className="absolute -top-10 right-0 text-white text-2xl font-bold hover:text-gray-300 transition z-10"
+              title="Close"
+            >
+              ✕
+            </button>
+
+            {/* Image Container */}
+            <div className="bg-black rounded-xl overflow-hidden aspect-square sm:aspect-auto max-h-[80vh]">
+              <img
+                src={modal.images[modal.currentIndex]}
+                alt={`Certificate ${modal.currentIndex + 1}`}
+                className="w-full h-full object-contain"
+              />
+            </div>
+
+            {/* Navigation */}
+            {modal.images.length > 1 && (
+              <>
+                <button
+                  onClick={prevImage}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-2 rounded-lg transition"
+                  title="Previous"
+                >
+                  ◀
+                </button>
+                <button
+                  onClick={nextImage}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-2 rounded-lg transition"
+                  title="Next"
+                >
+                  ▶
+                </button>
+
+                {/* Counter */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+                  {modal.currentIndex + 1} / {modal.images.length}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
