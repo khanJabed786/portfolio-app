@@ -19,7 +19,7 @@ export default function Certificates() {
         const certs = snaps.docs.map((d) => ({ id: d.id, ...d.data() }));
         setCertificates(certs);
       } catch (e) {
-        console.error("Failed to load certificates:", e);
+        console.error("Failed to load certificates:", e.message);
       } finally {
         setLoading(false);
       }
@@ -146,8 +146,39 @@ export default function Certificates() {
     );
   }
 
+  // Always show section, even if empty - for coding competition display
   if (!certificates || certificates.length === 0) {
-    return null;
+    return (
+      <section id="certificates" className="min-h-screen py-20 px-6 relative overflow-hidden" data-aos="fade-up">
+        {/* Background gradient orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl animate-pulse" />
+        </div>
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          {/* Header */}
+          <div className="text-center mb-16" data-aos="fade-down">
+            <h2 className="text-4xl md:text-5xl font-bold">
+              <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
+                Certifications & Achievements
+              </span>
+            </h2>
+            <p className="text-white/60 mt-4 max-w-2xl mx-auto">
+              Professional certifications and badges that showcase my expertise and commitment to continuous learning.
+            </p>
+          </div>
+
+          {/* Empty State */}
+          <div className="flex items-center justify-center min-h-96">
+            <div className="text-center space-y-4">
+              <div className="text-6xl">📜</div>
+              <p className="text-white/60 text-lg">No certificates yet. Coming soon!</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (
