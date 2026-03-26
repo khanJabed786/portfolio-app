@@ -43,48 +43,47 @@ export default function Certificates() {
     if (!isMobile || !carouselRef.current || certificates.length < 2) return;
 
     const container = carouselRef.current;
-    let scrollPosition = 0;
-    const scrollSpeed = 1; // pixels per frame
-    const pauseDuration = 3000; // pause for 3 seconds between scrolls
+    const cardWidth = 320; // w-80 = 20rem = 320px
+    const gap = 16; // gap-4 = 1rem = 16px
+    const cardWithGap = cardWidth + gap;
+    let currentIndex = 0;
     let animationId;
     let isPaused = false;
 
-    const scroll = () => {
+    const scrollToCard = () => {
       if (isPaused) {
-        animationId = requestAnimationFrame(scroll);
+        animationId = setTimeout(scrollToCard, 100);
         return;
       }
 
-      scrollPosition += scrollSpeed;
-      container.scrollLeft = scrollPosition;
+      // Scroll to current card
+      const targetScroll = currentIndex * cardWithGap;
+      container.scrollLeft = targetScroll;
 
-      // Reset scroll when reaching end
-      if (scrollPosition >= container.scrollWidth - container.clientWidth) {
-        isPaused = true;
-        setTimeout(() => {
-          scrollPosition = 0;
-          container.scrollLeft = 0;
-          isPaused = false;
-        }, pauseDuration);
-      }
+      // Increment for next card
+      currentIndex = (currentIndex + 1) % certificates.length;
 
-      animationId = requestAnimationFrame(scroll);
+      // Pause for 3 seconds before scrolling to next
+      isPaused = true;
+      animationId = setTimeout(() => {
+        isPaused = false;
+        scrollToCard();
+      }, 3000);
     };
 
-    animationId = requestAnimationFrame(scroll);
+    // Start carousel
+    animationId = setTimeout(scrollToCard, 3000);
 
     // Pause on user interaction
     const handleScroll = () => {
       isPaused = true;
-      setTimeout(() => {
-        isPaused = false;
-      }, 2000);
+      currentIndex = Math.round(container.scrollLeft / cardWithGap);
     };
 
     container.addEventListener('scroll', handleScroll);
 
     return () => {
-      cancelAnimationFrame(animationId);
+      clearTimeout(animationId);
       container.removeEventListener('scroll', handleScroll);
     };
   }, [isMobile, certificates]);
@@ -204,17 +203,22 @@ export default function Certificates() {
 
         {/* Certificates Grid (Desktop) / Carousel (Mobile) */}
         {isMobile ? (
-          // MOBILE CAROUSEL - Auto-scrolling horizontal
+          // MOBILE CAROUSEL - Auto-scrolling horizontal (one card at a time)
           <div className="relative w-full">
             <div
               ref={carouselRef}
               className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide pb-2"
-              style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}
+              style={{
+                scrollBehavior: 'smooth',
+                WebkitOverflowScrolling: 'touch',
+                scrollSnapType: 'x mandatory'
+              }}
             >
               {certificates.map((cert, index) => (
                 <div
                   key={cert.id || index}
-                  className="flex-shrink-0 w-72 glass group p-4 rounded-2xl border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300 h-full flex flex-col"
+                  className="flex-shrink-0 w-80 glass group p-4 rounded-2xl border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300 h-full flex flex-col"
+                  style={{ scrollSnapAlign: 'start' }}
                 >
                   {/* Image */}
                   {cert.images && cert.images.length > 0 ? (
