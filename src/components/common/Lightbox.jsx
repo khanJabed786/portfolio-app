@@ -7,18 +7,17 @@ export default function Lightbox({ open, images = [], index = 0, onClose, onPrev
     setLoadError(false);
   }, [index]);
 
-  // Lock body scroll using class
+  // Lock body scroll using class and ensure modal visible
   useEffect(() => {
     if (open) {
-      // Scroll to top when opening - especially important for mobile
-      const isMobile = window.innerWidth < 768;
-      if (isMobile) {
-        // Immediate scroll on mobile for better UX
+      // Immediate scroll to top - multiple methods for maximum compatibility
+      setTimeout(() => {
+        window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+      }, 0);
+      
+      // Add class after scroll
       document.documentElement.classList.add('modal-open');
     } else {
       document.documentElement.classList.remove('modal-open');
