@@ -14,75 +14,65 @@ import ScrollProgress from "../components/common/ScrollProgress.jsx";
 import BackToTop from "../components/common/BackToTop.jsx";
 import ErrorBoundary from "../components/common/ErrorBoundary.jsx";
 
-export default function HomePage() {
-  React.useEffect(() => {
-    console.log("✅ HomePage mounted - rendering sections");
-  }, []);
+const SECTIONS = [
+  { id: "home", component: Hero, label: "Hero" },
+  { id: "about", component: About, label: "About" },
+  { id: "skills", component: Skills, label: "Skills" },
+  { id: "projects", component: Projects, label: "Projects" },
+  { id: "experience", component: Experience, label: "Experience" },
+  { id: "achievements", component: Achievements, label: "Achievements" },
+];
 
+const SINGLE_SECTIONS = [
+  { id: "certificates", component: Certificates, label: "Certificates", fullHeight: true },
+  { id: "contact", component: Contact, label: "Contact", fullHeight: true },
+];
+
+export default function HomePage() {
   return (
-    <main className="relative">
+    <main className="relative bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800">
       <ScrollProgress />
       <BackToTop />
 
-      <ErrorBoundary section="Hero">
-        <section id="home" className="min-h-screen flex items-center">
-          <div className="w-full">
-            <Hero />
-          </div>
-        </section>
-      </ErrorBoundary>
+      {SECTIONS.map((section) => {
+        const Component = section.component;
+        return (
+          <ErrorBoundary key={section.id} section={section.label}>
+            <section
+              id={section.id}
+              className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 sm:py-16"
+            >
+              <div className="w-full max-w-7xl">
+                <Component />
+              </div>
+            </section>
+          </ErrorBoundary>
+        );
+      })}
 
-      <ErrorBoundary section="About">
-        <section id="about" className="min-h-screen flex items-center py-12 sm:py-16">
-          <div className="w-full">
-            <About />
-          </div>
-        </section>
-      </ErrorBoundary>
-
-      <ErrorBoundary section="Skills">
-        <section id="skills" className="min-h-screen flex items-center py-12 sm:py-16">
-          <div className="w-full">
-            <Skills />
-          </div>
-        </section>
-      </ErrorBoundary>
-
-      <ErrorBoundary section="Projects">
-        <section id="projects" className="min-h-screen flex items-center py-12 sm:py-16">
-          <div className="w-full">
-            <Projects />
-          </div>
-        </section>
-      </ErrorBoundary>
-
-      <ErrorBoundary section="Experience">
-        <section id="experience" className="min-h-screen flex items-center py-12 sm:py-16">
-          <div className="w-full">
-            <Experience />
-          </div>
-        </section>
-      </ErrorBoundary>
-                                          
-      <ErrorBoundary section="Achievements">
-        <section id="achievements" className="min-h-screen flex items-center py-12 sm:py-16">
-          <div className="w-full">
-            <Achievements />
-          </div>
-        </section>
-      </ErrorBoundary>
-
-      <ErrorBoundary section="Certificates">
-        <Certificates />
-      </ErrorBoundary>
-
-      <ErrorBoundary section="Contact">
-        <section id="contact" className="min-h-screen flex items-center py-12 sm:py-16">
-          <div className="w-full">
-            <Contact />
-          </div>
-        </section>
-      </ErrorBoundary>
+      {SINGLE_SECTIONS.map((section) => {
+        const Component = section.component;
+        return (
+          <ErrorBoundary key={section.id} section={section.label}>
+            {section.fullHeight ? (
+              <section
+                id={section.id}
+                className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 sm:py-16"
+              >
+                <div className="w-full max-w-7xl">
+                  <Component />
+                </div>
+              </section>
+            ) : (
+              <section id={section.id} className="w-full px-4 sm:px-6 lg:px-8">
+                <div className="w-full max-w-7xl mx-auto">
+                  <Component />
+                </div>
+              </section>
+            )}
+          </ErrorBoundary>
+        );
+      })}
 
       <ErrorBoundary section="Footer">
         <Footer />
