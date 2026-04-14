@@ -27,3 +27,8 @@ body[data-theme="light"] {
 body[data-theme="dark"] {
   color: rgba(255, 255, 255, 0.92);
 }
+
+/* Modal/Lightbox scroll lock */
+html.modal-open {
+  overflow: hidden !important;
+}

@@ -1,6 +1,18 @@
 import React, { useEffect } from "react";
 
 export default function Modal({ open, title, children, onClose }) {
+  // Lock body scroll using class
+  useEffect(() => {
+    if (open) {
+      document.documentElement.classList.add('modal-open');
+    } else {
+      document.documentElement.classList.remove('modal-open');
+    }
+    return () => {
+      document.documentElement.classList.remove('modal-open');
+    };
+  }, [open]);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => (e.key === "Escape" ? onClose?.() : null);

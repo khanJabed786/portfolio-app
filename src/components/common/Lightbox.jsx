@@ -4,8 +4,20 @@ export default function Lightbox({ open, images = [], index = 0, onClose, onPrev
   const [loadError, setLoadError] = useState(false);
   
   useEffect(() => {
-    setLoadError(false); // Reset error when image changes
+    setLoadError(false);
   }, [index]);
+
+  // Lock body scroll using class
+  useEffect(() => {
+    if (open) {
+      document.documentElement.classList.add('modal-open');
+    } else {
+      document.documentElement.classList.remove('modal-open');
+    }
+    return () => {
+      document.documentElement.classList.remove('modal-open');
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
