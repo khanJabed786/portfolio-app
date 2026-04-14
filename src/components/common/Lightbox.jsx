@@ -10,6 +10,8 @@ export default function Lightbox({ open, images = [], index = 0, onClose, onPrev
   // Lock body scroll using class
   useEffect(() => {
     if (open) {
+      // Scroll to top when opening
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       document.documentElement.classList.add('modal-open');
     } else {
       document.documentElement.classList.remove('modal-open');
