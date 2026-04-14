@@ -87,7 +87,7 @@ export default function Hero() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Main Content - Centered */}
-        <div className="grid lg:grid-cols-1 gap-6 sm:gap-8 items-center py-12 sm:py-16 lg:py-20">
+        <div className="grid lg:grid-cols-1 gap-6 sm:gap-8 items-center py-8 sm:py-12">
           <div className="text-center space-y-6 sm:space-y-8" data-aos="fade-up">
             {/* Greeting + Name */}
             <div className="space-y-4 sm:space-y-6">
@@ -171,7 +171,7 @@ export default function Hero() {
             </div>
 
             {/* Scroll indicator */}
-            <div className="pt-4 sm:pt-6 animate-bounce">
+            <div className="pt-2 sm:pt-3 animate-bounce">
               <a href="#about" className="inline-flex flex-col items-center gap-1 text-white/50 hover:text-white/70 transition">
                 <span className="text-xs sm:text-sm">Scroll to explore</span>
                 <span className="text-lg sm:text-xl">↓</span>
