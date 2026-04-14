@@ -4,8 +4,15 @@ export default function Modal({ open, title, children, onClose }) {
   // Lock body scroll using class
   useEffect(() => {
     if (open) {
-      // Scroll to top when opening
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Scroll to top when opening - especially important for mobile
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        // Immediate scroll on mobile for better UX
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
       document.documentElement.classList.add('modal-open');
     } else {
       document.documentElement.classList.remove('modal-open');
