@@ -7,21 +7,6 @@ export default function Lightbox({ open, images = [], index = 0, onClose, onPrev
     setLoadError(false); // Reset error when image changes
   }, [index]);
 
-  // Lock body scroll when lightbox is open
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-      document.documentElement.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-      document.documentElement.style.overflow = 'unset';
-    };
-  }, [open]);
-
   useEffect(() => {
     if (!open) return;
 

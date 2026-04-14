@@ -2,20 +2,6 @@ import React, { useEffect } from "react";
 
 export default function Modal({ open, title, children, onClose }) {
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-      document.documentElement.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-      document.documentElement.style.overflow = 'unset';
-    };
-  }, [open]);
-
-  useEffect(() => {
     if (!open) return;
     const onKey = (e) => (e.key === "Escape" ? onClose?.() : null);
     window.addEventListener("keydown", onKey);
