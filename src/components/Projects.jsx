@@ -31,7 +31,16 @@ export default function Projects() {
           getDocs(ref),
           new Promise((_, reject) => setTimeout(() => reject(new Error("Project loading timed out")), 8000))
         ]);
-        const projectsList = snaps.docs.map((d) => ({ id: d.id, ...d.data() }));
+        const projectsList = snaps.docs.map((d) => {
+          const data = d.data();
+          return {
+            id: d.id,
+            ...data,
+            tech: Array.isArray(data.tech) ? data.tech.filter(Boolean) : [],
+            tags: Array.isArray(data.tags) ? data.tags.filter(Boolean) : [],
+            images: Array.isArray(data.images) ? data.images.filter(Boolean) : data.images ? [data.images] : []
+          };
+        });
         projectsList.sort((a, b) => {
           const aTime = a.createdAt?.toMillis?.() || 0;
           const bTime = b.createdAt?.toMillis?.() || 0;
