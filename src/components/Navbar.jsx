@@ -87,9 +87,9 @@ export default function Navbar() {
   );
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50">
-      <nav className="mx-auto max-w-6xl px-4 pt-4">
-        <div className="glass px-4 py-3 flex items-center justify-between">
+    <header className="fixed inset-x-0 top-0 z-[100] pointer-events-none">
+      <nav className="pointer-events-auto mx-auto max-w-6xl px-4 pt-4">
+        <div className="glass pointer-events-auto px-4 py-3 flex items-center justify-between shadow-xl shadow-black/20 backdrop-blur-xl">
           <Link to="/" className="flex items-center gap-3 font-semibold tracking-wide">
             {profile.image && (
               <img 

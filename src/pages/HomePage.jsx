@@ -40,7 +40,7 @@ export default function HomePage() {
           <ErrorBoundary key={section.id} section={section.label}>
             <section
               id={section.id}
-              className={`${section.id === "home"
+              className={`scroll-mt-28 ${section.id === "home"
                 ? "pt-2 pb-0 sm:pt-4 sm:pb-0"
                 : section.id === "about"
                 ? "pt-2 pb-8 sm:pt-4 sm:pb-12"

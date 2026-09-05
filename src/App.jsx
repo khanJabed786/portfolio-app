@@ -53,7 +53,7 @@ export default function App() {
 
   return (
     <PortfolioProvider>
-      <div className="min-h-screen animated-gradient page-enter">
+      <div className="min-h-screen animated-gradient">
         <ParticleBackground />
         <CustomCursor />
         <EasterEgg />
