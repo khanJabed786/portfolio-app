@@ -221,7 +221,19 @@ export default function Certificates() {
                   style={{ scrollSnapAlign: 'start' }}
                 >
                   {cert.description && (
-                    <p className="mb-3 text-xs text-white/60 line-clamp-2">{cert.description}</p>
+                    <div className="mb-3">
+                      <p className="text-xs text-white/60 line-clamp-2">{cert.description}</p>
+                      {cert.description.length > 120 && (
+                        <a
+                          href={`/certificates/${cert.id}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="mt-1 inline-block text-xs font-semibold text-amber-400 hover:text-amber-300 transition"
+                        >
+                          View More →
+                        </a>
+                      )}
+                    </div>
                   )}
 
                   {/* Image */}
@@ -304,7 +316,19 @@ export default function Certificates() {
                 data-aos-delay={index * 100}
               >
                 {cert.description && (
-                  <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-white/60 line-clamp-2">{cert.description}</p>
+                  <div className="mb-3 sm:mb-4">
+                    <p className="text-xs sm:text-sm text-white/60 line-clamp-2">{cert.description}</p>
+                    {cert.description.length > 120 && (
+                      <a
+                        href={`/certificates/${cert.id}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-1 inline-block text-xs font-semibold text-amber-400 hover:text-amber-300 transition"
+                      >
+                        View More →
+                      </a>
+                    )}
+                  </div>
                 )}
 
                 {/* Image */}

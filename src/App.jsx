@@ -21,6 +21,7 @@ const TermsPage = React.lazy(() => import("./pages/TermsPage.jsx"));
 const AdminPage = React.lazy(() => import("./pages/Admin/AdminPage.jsx"));
 
 const ProjectCaseStudyPage = React.lazy(() => import("./pages/ProjectCaseStudyPage.jsx"));
+const CertificateDetailPage = React.lazy(() => import("./pages/CertificateDetailPage.jsx"));
 const ResumePage = React.lazy(() => import("./pages/ResumePage.jsx"));
 
 function PageViewTracker() {
@@ -86,6 +87,16 @@ export default function App() {
                 <>
                   <Navbar />
                   <ProjectCaseStudyPage />
+                </>
+              }
+            />
+
+            <Route
+              path="/certificates/:id"
+              element={
+                <>
+                  <Navbar />
+                  <CertificateDetailPage />
                 </>
               }
             />
