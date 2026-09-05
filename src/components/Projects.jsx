@@ -291,7 +291,7 @@ export default function Projects() {
                   {items.map((p) => (
                     <div
                       key={p.id}
-                      className="flex-shrink-0 w-[min(88vw,560px)] min-h-[360px] grid grid-cols-[1.2fr_0.9fr] grid-rows-[auto_1fr] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
+                      className="flex-shrink-0 w-[min(92vw,500px)] min-h-[320px] grid grid-cols-[1.15fr_0.85fr] grid-rows-[auto_1fr] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
                       style={{ scrollSnapAlign: 'start' }}
                     >
                       <div className="col-span-2 flex items-start justify-between gap-3 px-5 pt-5 pb-3">
@@ -305,7 +305,7 @@ export default function Projects() {
 
                       {/* Image Section */}
                       {p.images?.length ? (
-                        <div className="relative min-h-[220px] overflow-hidden">
+                        <div className="relative min-h-[190px] overflow-hidden">
                           <button
                             onClick={() => openGallery(p, getCarouselIndex(p.id))}
                             className="w-full h-full"
@@ -380,7 +380,7 @@ export default function Projects() {
 
                       {/* Content Section */}
                       <div className="min-w-0 flex flex-col gap-3 px-4 pt-4 pb-4">
-                        <p className="text-white/70 text-sm leading-relaxed line-clamp-2">{p.description}</p>
+                        <p className="min-h-[5.25rem] text-white/70 text-sm leading-relaxed">{p.description}</p>
 
                         {/* Tech Stack */}
                         <div className="flex flex-wrap gap-1">
@@ -408,6 +408,8 @@ export default function Projects() {
                           </a>
                           <a
                             href={`/projects/${p.id}`}
+                            target="_blank"
+                            rel="noreferrer"
                             className="flex-1 px-3 py-2 rounded-lg font-semibold text-sm text-center border border-white/20 hover:border-purple-400 hover:bg-white/10 transition"
                           >
                             📖 Case Study
@@ -437,7 +439,7 @@ export default function Projects() {
                 {items.map((p, idx) => (
                   <div
                     key={p.id}
-                    className="flex-shrink-0 w-[min(78vw,560px)] min-h-[360px] grid grid-cols-[1.2fr_0.9fr] grid-rows-[auto_1fr] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
+                    className="flex-shrink-0 w-[min(70vw,520px)] min-h-[320px] grid grid-cols-[1.15fr_0.85fr] grid-rows-[auto_1fr] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
                     style={{ scrollSnapAlign: "start" }}
                     data-aos="zoom-in"
                     data-aos-delay={`${idx * 50}`}
@@ -453,7 +455,7 @@ export default function Projects() {
 
                     {/* Image Section */}
                     {p.images?.length ? (
-                      <div className="relative min-h-[220px] overflow-hidden">
+                      <div className="relative min-h-[190px] overflow-hidden">
                         <button
                           onClick={() => openGallery(p, getCarouselIndex(p.id))}
                           className="w-full h-full"
@@ -528,7 +530,7 @@ export default function Projects() {
 
                     {/* Content Section */}
                     <div className="min-w-0 flex flex-col gap-3 px-4 pt-4 pb-4">
-                      <p className="text-white/70 text-sm leading-relaxed line-clamp-2">{p.description}</p>
+                      <p className="min-h-[5.25rem] text-white/70 text-sm leading-relaxed">{p.description}</p>
 
                       {/* Tech Stack */}
                       <div className="flex flex-wrap gap-1">
@@ -556,6 +558,8 @@ export default function Projects() {
                         </a>
                         <a
                           href={`/projects/${p.id}`}
+                          target="_blank"
+                          rel="noreferrer"
                           className="flex-1 px-3 py-2 rounded-lg font-semibold text-sm text-center border border-white/20 hover:border-purple-400 hover:bg-white/10 transition"
                         >
                           📖 Case Study
