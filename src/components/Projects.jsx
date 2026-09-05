@@ -19,8 +19,6 @@ export default function Projects() {
   const [projectCarousels, setProjectCarousels] = useState({});
   const [lastManualInteraction, setLastManualInteraction] = useState({});
 
-  // Mobile carousel support
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const projectsCarouselRef = useRef(null);
 
   // Fetch projects from Firebase
@@ -89,65 +87,43 @@ export default function Projects() {
     };
   }, [lb.open, lb.images]);
 
-  // Handle window resize to detect mobile
+  // Auto-scroll the project rail and pause briefly after manual interaction.
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Auto-scroll projects carousel on mobile
-  useEffect(() => {
-    if (!isMobile || !projectsCarouselRef.current || items.length < 2) return;
+    if (!projectsCarouselRef.current || items.length < 2) return;
 
     const container = projectsCarouselRef.current;
-    const cardWidth = 352; // w-96 = 24rem = 384px (adjusted for actual content)
-    const gap = 16; // gap-4 = 1rem = 16px
-    const cardWithGap = cardWidth + gap;
-    let currentIndex = 0;
-    let animationId;
-    let isPaused = false;
+    let pausedUntil = 0;
+    let autoScrolling = false;
 
-    const scrollToCard = () => {
-      if (isPaused) {
-        animationId = setTimeout(scrollToCard, 100);
-        return;
-      }
-
-      // Scroll to current card
-      const targetScroll = currentIndex * cardWithGap;
-      container.scrollLeft = targetScroll;
-
-      // Increment for next card
-      currentIndex = (currentIndex + 1) % items.length;
-
-      // Pause for 3 seconds before scrolling to next
-      isPaused = true;
-      animationId = setTimeout(() => {
-        isPaused = false;
-        scrollToCard();
-      }, 3000);
+    const getCardStep = () => {
+      const card = container.firstElementChild;
+      return card ? card.getBoundingClientRect().width + 16 : container.clientWidth;
     };
 
-    // Start carousel
-    animationId = setTimeout(scrollToCard, 3000);
-
-    // Pause on user interaction
-    const handleScroll = () => {
-      isPaused = true;
-      currentIndex = Math.round(container.scrollLeft / cardWithGap);
+    const advance = () => {
+      if (Date.now() < pausedUntil) return;
+      const step = getCardStep();
+      const currentIndex = Math.round(container.scrollLeft / step);
+      const nextIndex = (currentIndex + 1) % items.length;
+      autoScrolling = true;
+      container.scrollTo({ left: nextIndex * step, behavior: "smooth" });
+      window.setTimeout(() => {
+        autoScrolling = false;
+      }, 700);
     };
 
-    container.addEventListener('scroll', handleScroll);
+    const handleManualScroll = () => {
+      if (!autoScrolling) pausedUntil = Date.now() + 6000;
+    };
+
+    const interval = window.setInterval(advance, 4500);
+    container.addEventListener("scroll", handleManualScroll);
 
     return () => {
-      clearTimeout(animationId);
-      container.removeEventListener('scroll', handleScroll);
+      window.clearInterval(interval);
+      container.removeEventListener("scroll", handleManualScroll);
     };
-  }, [isMobile, items]);
+  }, [items]);
 
   // Auto-play carousels for project cards
   useEffect(() => {
@@ -214,11 +190,19 @@ export default function Projects() {
     });
   };
 
+  const scrollProjects = (direction) => {
+    projectsCarouselRef.current?.scrollBy({
+      left: direction * projectsCarouselRef.current.clientWidth * 0.82,
+      behavior: "smooth"
+    });
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
       <div className="space-y-8 sm:space-y-10" data-aos="fade-up">
         {/* Header */}
-        <div>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
             <span className="bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
               Projects
@@ -226,6 +210,28 @@ export default function Projects() {
           </h2>
           <p className="mt-3 text-white/70 text-base sm:text-lg">Featured work and recent projects</p>
           <div className="mt-4 h-1 w-24 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full" />
+          </div>
+          {projects.length > 1 && (
+            <div className="flex items-center gap-2">
+              <span className="mr-2 text-xs uppercase tracking-[0.2em] text-white/45">More work</span>
+              <button
+                type="button"
+                onClick={() => scrollProjects(-1)}
+                className="h-10 w-10 rounded-full border border-white/15 bg-white/5 text-white/80 transition hover:border-purple-400 hover:bg-purple-500/20"
+                aria-label="Previous projects"
+              >
+                &#8592;
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollProjects(1)}
+                className="h-10 w-10 rounded-full border border-white/15 bg-white/5 text-white/80 transition hover:border-purple-400 hover:bg-purple-500/20"
+                aria-label="Next projects"
+              >
+                &#8594;
+              </button>
+            </div>
+          )}
         </div>
 
         {loading ? (
@@ -268,7 +274,7 @@ export default function Projects() {
               <div className="relative w-full">
                 <div
                   ref={projectsCarouselRef}
-                  className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide pb-2"
+                  className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide pb-3"
                   style={{
                     scrollBehavior: 'smooth',
                     WebkitOverflowScrolling: 'touch',
@@ -278,7 +284,7 @@ export default function Projects() {
                   {items.map((p) => (
                     <div
                       key={p.id}
-                      className="flex-shrink-0 w-96 min-h-[360px] grid grid-cols-[1.2fr_0.9fr] grid-rows-[auto_1fr] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
+                      className="flex-shrink-0 w-[min(88vw,560px)] min-h-[360px] grid grid-cols-[1.2fr_0.9fr] grid-rows-[auto_1fr] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
                       style={{ scrollSnapAlign: 'start' }}
                     >
                       <div className="col-span-2 flex items-start justify-between gap-3 px-5 pt-5 pb-3">
@@ -415,12 +421,17 @@ export default function Projects() {
                 </div>
               </div>
             ) : (
-              // DESKTOP GRID
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+              // DESKTOP PROJECT RAIL
+              <div
+                ref={projectsCarouselRef}
+                className="flex gap-5 overflow-x-auto scroll-smooth scrollbar-hide pb-3"
+                style={{ scrollBehavior: "smooth", scrollSnapType: "x mandatory" }}
+              >
                 {items.map((p, idx) => (
                   <div
                     key={p.id}
-                    className="min-h-[360px] grid grid-cols-[1.2fr_0.9fr] grid-rows-[auto_1fr] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
+                    className="flex-shrink-0 w-[min(78vw,560px)] min-h-[360px] grid grid-cols-[1.2fr_0.9fr] grid-rows-[auto_1fr] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
+                    style={{ scrollSnapAlign: "start" }}
                     data-aos="zoom-in"
                     data-aos-delay={`${idx * 50}`}
                   >
