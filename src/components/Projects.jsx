@@ -19,6 +19,7 @@ export default function Projects() {
   const [projectCarousels, setProjectCarousels] = useState({});
   const [lastManualInteraction, setLastManualInteraction] = useState({});
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const projectsCarouselRef = useRef(null);
 
   // Fetch projects from Firebase
@@ -86,6 +87,12 @@ export default function Projects() {
       console.log("⏹️ Lightbox auto-play stopped");
     };
   }, [lb.open, lb.images]);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Auto-scroll the project rail and pause briefly after manual interaction.
   useEffect(() => {
