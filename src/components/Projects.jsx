@@ -278,10 +278,10 @@ export default function Projects() {
                   {items.map((p) => (
                     <div
                       key={p.id}
-                      className="flex-shrink-0 w-96 min-h-[450px] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20 flex flex-col"
+                      className="flex-shrink-0 w-96 min-h-[360px] grid grid-cols-[1.2fr_0.9fr] grid-rows-[auto_1fr] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
                       style={{ scrollSnapAlign: 'start' }}
                     >
-                      <div className="flex items-start justify-between gap-3 px-6 pt-6 pb-3">
+                      <div className="col-span-2 flex items-start justify-between gap-3 px-5 pt-5 pb-3">
                         <h3 className="font-bold text-lg text-white group-hover:text-purple-300 transition line-clamp-2">
                           {p.title}
                         </h3>
@@ -292,7 +292,7 @@ export default function Projects() {
 
                       {/* Image Section */}
                       {p.images?.length ? (
-                        <div className="relative overflow-hidden h-48">
+                        <div className="relative min-h-[220px] overflow-hidden">
                           <button
                             onClick={() => openGallery(p, getCarouselIndex(p.id))}
                             className="w-full h-full"
@@ -366,7 +366,7 @@ export default function Projects() {
                       ) : null}
 
                       {/* Content Section */}
-                      <div className="px-6 pt-4 pb-6 space-y-4 flex-1 flex flex-col">
+                      <div className="min-w-0 flex flex-col gap-3 px-4 pt-4 pb-4">
                         <p className="text-white/70 text-sm leading-relaxed line-clamp-2">{p.description}</p>
 
                         {/* Tech Stack */}
@@ -384,7 +384,7 @@ export default function Projects() {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10 mt-auto">
+                        <div className="flex flex-col gap-2 pt-3 border-t border-white/10 mt-auto">
                           <a
                             href={p.live}
                             target="_blank"
@@ -416,15 +416,15 @@ export default function Projects() {
               </div>
             ) : (
               // DESKTOP GRID
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
                 {items.map((p, idx) => (
                   <div
                     key={p.id}
-                    className="group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
+                    className="min-h-[360px] grid grid-cols-[1.2fr_0.9fr] grid-rows-[auto_1fr] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20"
                     data-aos="zoom-in"
                     data-aos-delay={`${idx * 50}`}
                   >
-                    <div className="flex items-start justify-between gap-3 px-6 pt-6 pb-3">
+                    <div className="col-span-2 flex items-start justify-between gap-3 px-5 pt-5 pb-3">
                       <h3 className="font-bold text-lg text-white group-hover:text-purple-300 transition line-clamp-2">
                         {p.title}
                       </h3>
@@ -435,7 +435,7 @@ export default function Projects() {
 
                     {/* Image Section */}
                     {p.images?.length ? (
-                      <div className="relative overflow-hidden h-48">
+                      <div className="relative min-h-[220px] overflow-hidden">
                         <button
                           onClick={() => openGallery(p, getCarouselIndex(p.id))}
                           className="w-full h-full"
@@ -509,7 +509,7 @@ export default function Projects() {
                     ) : null}
 
                     {/* Content Section */}
-                    <div className="px-6 pt-4 pb-6 space-y-4">
+                    <div className="min-w-0 flex flex-col gap-3 px-4 pt-4 pb-4">
                       <p className="text-white/70 text-sm leading-relaxed line-clamp-2">{p.description}</p>
 
                       {/* Tech Stack */}
@@ -527,7 +527,7 @@ export default function Projects() {
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
+                      <div className="flex flex-col gap-2 pt-3 border-t border-white/10 mt-auto">
                         <a
                           href={p.live}
                           target="_blank"
