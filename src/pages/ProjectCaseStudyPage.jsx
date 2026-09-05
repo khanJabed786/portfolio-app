@@ -46,26 +46,35 @@ export default function ProjectCaseStudyPage() {
   }
 
   return (
-    <main className="min-h-screen pt-24 pb-20 px-6">
-      <div className="max-w-5xl mx-auto">
-        <div className="glass p-8">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h1 className="text-3xl font-semibold">{project.title}</h1>
-              <p className="mt-2 text-white/80">{project.description}</p>
-            </div>
-            <div className="flex gap-2 flex-wrap">
-              <ShareButtons title={project.title} text="Check out this project" />
-              <Link
-                to="/"
-                className="px-4 py-2 rounded-xl border border-white/15 hover:bg-white/10 transition"
-              >
-                Home
-              </Link>
-            </div>
+    <main className="min-h-screen px-4 pb-20 pt-28 sm:px-6">
+      <article className="glass mx-auto max-w-6xl rounded-3xl border border-purple-500/20 p-5 sm:p-8">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Link to="/#projects" className="text-sm text-purple-300 hover:text-purple-200">
+            Back to projects
+          </Link>
+          <div className="flex gap-2 flex-wrap">
+            <ShareButtons title={project.title} text="Check out this project" />
+            <Link to="/" className="px-4 py-2 rounded-xl border border-white/15 hover:bg-white/10 transition">
+              Home
+            </Link>
+          </div>
+        </div>
+
+        <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start">
+          <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+            {project.images?.length ? (
+              <img src={project.images[0]} alt={project.title} className="max-h-[520px] w-full object-contain" />
+            ) : (
+              <div className="flex aspect-video items-center justify-center text-6xl text-white/30">🚀</div>
+            )}
           </div>
 
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-purple-300">Project case study</p>
+            <h1 className="mt-3 text-3xl font-bold text-white sm:text-4xl">{project.title}</h1>
+            <p className="mt-5 whitespace-pre-line text-base leading-8 text-white/75">{project.description}</p>
+
+            <div className="mt-6 flex flex-wrap gap-2">
             {project.tech.map((t) => (
               <span
                 key={t}
@@ -74,9 +83,20 @@ export default function ProjectCaseStudyPage() {
                 {t}
               </span>
             ))}
-          </div>
+            </div>
 
-          <div className="mt-8 grid md:grid-cols-3 gap-4">
+            <div className="mt-8 flex flex-wrap gap-2">
+              <a href={project.github} target="_blank" rel="noreferrer" className="ripple-btn rounded-xl border border-white/15 px-4 py-2 hover:bg-white/10 transition">
+                GitHub ↗
+              </a>
+              <a href={project.live} target="_blank" rel="noreferrer" className="ripple-btn rounded-xl bg-indigo-500/70 px-4 py-2 hover:bg-indigo-500 transition">
+                Live Demo ↗
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
             {project.caseStudy?.problem && (
               <CaseCard title="Problem">
                 {project.caseStudy.problem}
@@ -105,26 +125,7 @@ export default function ProjectCaseStudyPage() {
                 </CaseCard>
               </>
             )}
-          </div>
-
-          <div className="mt-8 flex flex-wrap gap-2">
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noreferrer"
-              className="ripple-btn px-4 py-2 rounded-xl border border-white/15 hover:bg-white/10 transition"
-            >
-              GitHub
-            </a>
-            <a
-              href={project.live}
-              target="_blank"
-              rel="noreferrer"
-              className="ripple-btn px-4 py-2 rounded-xl bg-indigo-500/70 hover:bg-indigo-500 transition"
-            >
-              Live Demo
-            </a>
-          </div>
+        </div>
 
           {project.video ? (
             <div className="mt-10">
@@ -167,8 +168,7 @@ export default function ProjectCaseStudyPage() {
             onPrev={() => setLb((s) => ({ ...s, index: (s.index - 1 + s.images.length) % s.images.length }))}
             onNext={() => setLb((s) => ({ ...s, index: (s.index + 1) % s.images.length }))}
           />
-        </div>
-      </div>
+      </article>
     </main>
   );
 }

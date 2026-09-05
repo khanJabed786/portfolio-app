@@ -380,7 +380,19 @@ export default function Projects() {
 
                       {/* Content Section */}
                       <div className="min-w-0 flex flex-col gap-3 px-4 pt-4 pb-4">
-                        <p className="min-h-[5.25rem] text-white/70 text-sm leading-relaxed line-clamp-6">{p.description}</p>
+                        <div className="min-h-[5.25rem]">
+                          <p className="text-white/70 text-sm leading-relaxed line-clamp-6">{p.description}</p>
+                          {p.description?.length > 180 && (
+                            <a
+                              href={`/projects/${p.id}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="mt-1 inline-block text-xs font-semibold text-purple-300 hover:text-purple-200 transition"
+                            >
+                              View More →
+                            </a>
+                          )}
+                        </div>
 
                         {/* Tech Stack */}
                         <div className="flex flex-wrap gap-1">
@@ -530,7 +542,19 @@ export default function Projects() {
 
                     {/* Content Section */}
                     <div className="min-w-0 flex flex-col gap-3 px-4 pt-4 pb-4">
-                      <p className="min-h-[5.25rem] text-white/70 text-sm leading-relaxed line-clamp-6">{p.description}</p>
+                      <div className="min-h-[5.25rem]">
+                        <p className="text-white/70 text-sm leading-relaxed line-clamp-6">{p.description}</p>
+                        {p.description?.length > 180 && (
+                          <a
+                            href={`/projects/${p.id}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="mt-1 inline-block text-xs font-semibold text-purple-300 hover:text-purple-200 transition"
+                          >
+                            View More →
+                          </a>
+                        )}
+                      </div>
 
                       {/* Tech Stack */}
                       <div className="flex flex-wrap gap-1">
