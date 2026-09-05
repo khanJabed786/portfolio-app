@@ -4,7 +4,8 @@ export default function useTypewriter({
   words,
   typeSpeed = 55,
   deleteSpeed = 32,
-  delayBetween = 900
+  delayBetween = 900,
+  loop = true
 }) {
   const list = useMemo(() => words?.filter(Boolean) ?? [], [words]);
   const [idx, setIdx] = useState(0);
@@ -22,9 +23,9 @@ export default function useTypewriter({
     const t = setTimeout(() => {
       setTxt(next);
 
-      if (doneTyping) {
+      if (doneTyping && loop) {
         setTimeout(() => setDel(true), delayBetween);
-      } else if (doneDeleting) {
+      } else if (doneDeleting && loop) {
         setDel(false);
         setIdx((v) => (v + 1) % list.length);
       }

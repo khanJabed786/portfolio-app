@@ -32,6 +32,11 @@ export default function Hero() {
   );
 
   const typed = useTypewriter({ words });
+  const typedIntro = useTypewriter({
+    words: [safeProfile.intro],
+    typeSpeed: 28,
+    loop: false
+  });
 
   // Find current word to get its color
   const currentWordObj = typewriter.words?.find((w) => w.text === typed);
@@ -86,9 +91,9 @@ export default function Hero() {
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-green-500/10 rounded-full blur-3xl opacity-0 lg:opacity-100 animate-pulse" style={{ animationDelay: "1s" }} />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-        {/* Main Content - Centered */}
-        <div className="grid lg:grid-cols-1 gap-6 sm:gap-8 items-center py-8 sm:py-12">
-          <div className="text-center space-y-6 sm:space-y-8" data-aos="fade-up">
+        {/* Main Content */}
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] gap-10 lg:gap-16 items-center py-8 sm:py-12 lg:py-20">
+          <div className="text-center lg:text-left space-y-6 sm:space-y-8" data-aos="fade-up">
             {/* Greeting + Name */}
             <div className="space-y-4 sm:space-y-6">
               <p className="text-xs sm:text-sm font-semibold tracking-widest text-indigo-400 uppercase">Welcome to my portfolio</p>
@@ -100,7 +105,7 @@ export default function Hero() {
               </h1>
 
               {/* Typewriter role */}
-              <div className="min-h-[2.5rem] sm:min-h-[3rem] flex items-center justify-center">
+              <div className="min-h-[2.5rem] sm:min-h-[3rem] flex items-center justify-center lg:justify-start">
                 <div className="text-xl sm:text-2xl md:text-3xl font-semibold">
                   <span className="text-white/90">I'm a </span>
                   <span style={{ color: currentColor }} className="transition-colors duration-300 font-bold">
@@ -112,12 +117,13 @@ export default function Hero() {
             </div>
 
             {/* Intro text */}
-            <p className="text-sm sm:text-base md:text-lg text-white/70 max-w-3xl mx-auto leading-relaxed">
-              {safeProfile.intro}
+            <p className="min-h-[4.5rem] text-sm sm:text-base md:text-lg text-white/70 max-w-3xl mx-auto lg:mx-0 leading-relaxed">
+              {typedIntro}
+              <span className="ml-1 inline-block w-0.5 h-5 bg-indigo-300/80 align-middle animate-pulse" />
             </p>
 
             {/* CTA Buttons - 3D Interactive */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-2 sm:pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4">
               <a
                 href={safeProfile.ctas.primary.href}
                 onClick={() => onTrack("cta_hire_me")}
@@ -149,7 +155,7 @@ export default function Hero() {
             </div>
 
             {/* Social Links - 3D Interactive */}
-            <div className="flex flex-wrap gap-2 sm:gap-3 text-white/75 justify-center pt-2 sm:pt-4">
+            <div className="flex flex-wrap gap-2 sm:gap-3 text-white/75 justify-center lg:justify-start pt-2 sm:pt-4">
               {safeProfile.social.map((s) => (
                 <a
                   key={s.label}
@@ -171,11 +177,32 @@ export default function Hero() {
             </div>
 
             {/* Scroll indicator */}
-            <div className="pt-2 sm:pt-3 animate-bounce">
+            <div className="pt-2 sm:pt-3 animate-bounce flex justify-center lg:justify-start">
               <a href="#about" className="inline-flex flex-col items-center gap-1 text-white/50 hover:text-white/70 transition">
                 <span className="text-xs sm:text-sm">Scroll to explore</span>
                 <span className="text-lg sm:text-xl">↓</span>
               </a>
+            </div>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-sm lg:max-w-none" data-aos="fade-left">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl shadow-indigo-950/50">
+              {safeProfile.image ? (
+                <img
+                  src={safeProfile.image}
+                  alt={`${safeProfile.name} profile`}
+                  className="h-full w-full object-cover object-center"
+                  loading="eager"
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center px-8 text-center text-white/50">
+                  Add your profile photo from the admin Profile tab
+                </div>
+              )}
+              <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/15 bg-slate-950/65 px-4 py-3 text-center backdrop-blur-md">
+                <p className="text-sm font-semibold text-white">{safeProfile.name}</p>
+                <p className="mt-1 text-xs text-white/60">{safeProfile.role}</p>
+              </div>
             </div>
           </div>
 
