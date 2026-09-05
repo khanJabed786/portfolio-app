@@ -32,7 +32,7 @@ const db = getFirestore(app);
 
 async function setupAllowlist() {
   try {
-    const YOUR_UID = "RyTrbyMwS6gNkKPlzAyNRgGIxqo1";
+    const YOUR_UID = "O9lkelJcUQVLjPQ8JS5vVJDCV9g2";
     
     await setDoc(doc(db, "admin", "allowlist"), {
       uids: [YOUR_UID],

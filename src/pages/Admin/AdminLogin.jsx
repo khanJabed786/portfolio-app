@@ -8,7 +8,7 @@ export default function AdminLogin() {
 
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState({ open: false, type: "success", message: "" });
-  const [form, setForm] = useState({ email: "javedkhan1foru@gmail.com", password: "" });
+  const [form, setForm] = useState({ email: "javed.khan1foru@gmail.com", password: "" });
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -93,19 +93,6 @@ export default function AdminLogin() {
             {busy ? "Logging in..." : "Login"}
           </button>
         </form>
-
-        <div className="mt-8 p-4 bg-white/5 border border-white/15 rounded-xl text-sm">
-          <h3 className="font-semibold text-indigo-200 mb-2">📝 Test Account</h3>
-          <p className="text-white/80 mb-2">Use these credentials to test:</p>
-          <code className="block bg-black/40 p-2 rounded mb-2">
-            Email: test@test.com
-            <br />
-            Password: You need to create this in Firebase Console
-          </code>
-          <p className="text-white/70 text-xs mt-2">
-            ℹ️ Go to Firebase Console → Authentication → Create a new user with email "test@test.com"
-          </p>
-        </div>
 
         <div className="mt-4">
           <Link
