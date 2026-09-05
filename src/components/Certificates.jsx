@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase.js";
 
 export default function Certificates() {
@@ -14,9 +14,16 @@ export default function Certificates() {
       try {
         // Fetch from publicCertificates collection
         const ref = collection(db, "publicCertificates");
-        const q = query(ref, orderBy("createdAt", "desc"), limit(200));
-        const snaps = await getDocs(q);
+        const snaps = await Promise.race([
+          getDocs(ref),
+          new Promise((_, reject) => setTimeout(() => reject(new Error("Certificate loading timed out")), 8000))
+        ]);
         const certs = snaps.docs.map((d) => ({ id: d.id, ...d.data() }));
+        certs.sort((a, b) => {
+          const aTime = a.createdAt?.toMillis?.() || 0;
+          const bTime = b.createdAt?.toMillis?.() || 0;
+          return bTime - aTime;
+        });
         setCertificates(certs);
       } catch (e) {
         console.error("Failed to load certificates:", e.message);

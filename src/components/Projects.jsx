@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase.js";
 import Modal from "./common/Modal.jsx";
 import Lightbox from "./common/Lightbox.jsx";
@@ -27,9 +27,16 @@ export default function Projects() {
     const loadProjects = async () => {
       try {
         const ref = collection(db, "publicProjects");
-        const q = query(ref, orderBy("createdAt", "desc"));
-        const snaps = await getDocs(q);
+        const snaps = await Promise.race([
+          getDocs(ref),
+          new Promise((_, reject) => setTimeout(() => reject(new Error("Project loading timed out")), 8000))
+        ]);
         const projectsList = snaps.docs.map((d) => ({ id: d.id, ...d.data() }));
+        projectsList.sort((a, b) => {
+          const aTime = a.createdAt?.toMillis?.() || 0;
+          const bTime = b.createdAt?.toMillis?.() || 0;
+          return bTime - aTime;
+        });
         setProjects(projectsList);
       } catch (e) {
         console.error("Failed to load projects:", e);
