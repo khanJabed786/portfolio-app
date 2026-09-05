@@ -281,6 +281,15 @@ export default function Projects() {
                       className="flex-shrink-0 w-96 min-h-[450px] group card-lift card-3d function-hover rounded-xl border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-purple-500/20 flex flex-col"
                       style={{ scrollSnapAlign: 'start' }}
                     >
+                      <div className="flex items-start justify-between gap-3 px-6 pt-6 pb-3">
+                        <h3 className="font-bold text-lg text-white group-hover:text-purple-300 transition line-clamp-2">
+                          {p.title}
+                        </h3>
+                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-400/30 whitespace-nowrap">
+                          {p.tags?.[0] ?? "Project"}
+                        </span>
+                      </div>
+
                       {/* Image Section */}
                       {p.images?.length ? (
                         <div className="relative overflow-hidden h-48">
@@ -357,18 +366,7 @@ export default function Projects() {
                       ) : null}
 
                       {/* Content Section */}
-                      <div className="p-6 space-y-4 flex-1 flex flex-col">
-                        <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <h3 className="font-bold text-lg text-white group-hover:text-purple-300 transition line-clamp-2">
-                              {p.title}
-                            </h3>
-                          </div>
-                          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-400/30 whitespace-nowrap">
-                            {p.tags?.[0] ?? "Project"}
-                          </span>
-                        </div>
-
+                      <div className="px-6 pt-4 pb-6 space-y-4 flex-1 flex flex-col">
                         <p className="text-white/70 text-sm leading-relaxed line-clamp-2">{p.description}</p>
 
                         {/* Tech Stack */}
@@ -426,6 +424,15 @@ export default function Projects() {
                     data-aos="zoom-in"
                     data-aos-delay={`${idx * 50}`}
                   >
+                    <div className="flex items-start justify-between gap-3 px-6 pt-6 pb-3">
+                      <h3 className="font-bold text-lg text-white group-hover:text-purple-300 transition line-clamp-2">
+                        {p.title}
+                      </h3>
+                      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-400/30 whitespace-nowrap">
+                        {p.tags?.[0] ?? "Project"}
+                      </span>
+                    </div>
+
                     {/* Image Section */}
                     {p.images?.length ? (
                       <div className="relative overflow-hidden h-48">
@@ -502,18 +509,7 @@ export default function Projects() {
                     ) : null}
 
                     {/* Content Section */}
-                    <div className="p-6 space-y-4">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <h3 className="font-bold text-lg text-white group-hover:text-purple-300 transition line-clamp-2">
-                            {p.title}
-                          </h3>
-                        </div>
-                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-400/30 whitespace-nowrap">
-                          {p.tags?.[0] ?? "Project"}
-                        </span>
-                      </div>
-
+                    <div className="px-6 pt-4 pb-6 space-y-4">
                       <p className="text-white/70 text-sm leading-relaxed line-clamp-2">{p.description}</p>
 
                       {/* Tech Stack */}
