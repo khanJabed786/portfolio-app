@@ -40,7 +40,10 @@ export default function HomePage() {
           <ErrorBoundary key={section.id} section={section.label}>
             <section
               id={section.id}
-              className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 sm:py-16"
+              className={`${section.id === "home" || section.id === "about"
+                ? "py-8 sm:py-12"
+                : "min-h-screen py-12 sm:py-16"
+              } flex items-center justify-center px-4 sm:px-6 lg:px-8`}
             >
               <div className="w-full max-w-7xl">
                 <Component />
