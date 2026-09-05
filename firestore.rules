@@ -4,13 +4,16 @@ service cloud.firestore {
 
     function isAdmin() {
       return request.auth != null
-        && request.auth.uid in [
-          "O9lkelJcUQVLjPQ8JS5vVJDCV9g2"
-        ];
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
-    // Profile document: public read, admin write
-    match /public/{docId} {
+    // Profile and other public content: public read, admin write
+    match /public/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /publicCertificates/{document=**} {
       allow read: if true;
       allow write: if isAdmin();
     }
@@ -21,20 +24,20 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    // Contact messages:
-    // - public can create
-    // - only admin can read/update/delete
-    match /contactMessages/{docId} {
+    // Contact messages: public create, admin management
+    match /contactMessages/{document=**} {
       allow create: if true;
       allow read, update, delete: if isAdmin();
     }
 
-    // Analytics events:
-    // - public can create
-    // - only admin can read/update/delete
-    match /analyticsEvents/{docId} {
-      allow create: if true;
-      allow read, update, delete: if isAdmin();
+    // Analytics events: public create/read, admin management
+    match /analyticsEvents/{document=**} {
+      allow read, write: if isAdmin() || request.auth == null;
+    }
+
+    match /admins/{uid} {
+      allow read: if request.auth != null && (request.auth.uid == uid || isAdmin());
+      allow write: if isAdmin();
     }
   }
 }

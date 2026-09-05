@@ -34,8 +34,9 @@ async function setupAllowlist() {
   try {
     const YOUR_UID = "O9lkelJcUQVLjPQ8JS5vVJDCV9g2";
     
-    await setDoc(doc(db, "admin", "allowlist"), {
-      uids: [YOUR_UID],
+    await setDoc(doc(db, "admins", YOUR_UID), {
+      uid: YOUR_UID,
+      email: "javed.khan1foru@gmail.com",
       createdAt: new Date().toISOString()
     });
     
