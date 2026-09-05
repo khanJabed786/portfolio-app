@@ -220,6 +220,10 @@ export default function Certificates() {
                   className="flex-shrink-0 w-80 min-h-96 glass group p-4 rounded-2xl border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300 flex flex-col card-3d function-hover"
                   style={{ scrollSnapAlign: 'start' }}
                 >
+                  {cert.description && (
+                    <p className="mb-3 text-xs text-white/60 line-clamp-2">{cert.description}</p>
+                  )}
+
                   {/* Image */}
                   {cert.images && cert.images.length > 0 ? (
                     <button
@@ -268,11 +272,6 @@ export default function Certificates() {
                       )}
                     </div>
 
-                    {/* Description */}
-                    {cert.description && (
-                      <p className="text-xs text-white/60 pt-2 line-clamp-2 flex-1">{cert.description}</p>
-                    )}
-
                     {/* Credential Link */}
                     {cert.credentialUrl && (
                       <a
@@ -304,6 +303,10 @@ export default function Certificates() {
                 data-aos="fade-up"
                 data-aos-delay={index * 100}
               >
+                {cert.description && (
+                  <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-white/60 line-clamp-2">{cert.description}</p>
+                )}
+
                 {/* Image */}
                 {cert.images && cert.images.length > 0 ? (
                   <button
@@ -351,11 +354,6 @@ export default function Certificates() {
                       </div>
                     )}
                   </div>
-
-                  {/* Description */}
-                  {cert.description && (
-                    <p className="text-xs text-white/60 pt-2 line-clamp-2 flex-1">{cert.description}</p>
-                  )}
 
                   {/* Credential Link */}
                   {cert.credentialUrl && (
