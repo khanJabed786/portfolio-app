@@ -92,7 +92,7 @@ export default function Hero() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Main Content */}
-        <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] gap-10 lg:gap-16 items-center py-8 sm:py-12 lg:py-20">
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] gap-10 lg:gap-16 items-center py-2 sm:py-4 lg:py-8">
           <div className="text-center lg:text-left space-y-6 sm:space-y-8" data-aos="fade-up">
             {/* Greeting + Name */}
             <div className="space-y-4 sm:space-y-6">

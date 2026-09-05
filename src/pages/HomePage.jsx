@@ -40,8 +40,10 @@ export default function HomePage() {
           <ErrorBoundary key={section.id} section={section.label}>
             <section
               id={section.id}
-              className={`${section.id === "home" || section.id === "about"
-                ? "py-8 sm:py-12"
+              className={`${section.id === "home"
+                ? "pt-2 pb-0 sm:pt-4 sm:pb-0"
+                : section.id === "about"
+                ? "pt-2 pb-8 sm:pt-4 sm:pb-12"
                 : "min-h-screen py-12 sm:py-16"
               } flex items-center justify-center px-4 sm:px-6 lg:px-8`}
             >
