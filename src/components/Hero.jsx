@@ -92,7 +92,7 @@ export default function Hero() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Main Content */}
-        <div className="grid grid-cols-[minmax(0,1.35fr)_minmax(105px,0.8fr)] gap-3 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] lg:gap-16 items-center py-2 sm:py-4 lg:py-8">
+        <div className="grid grid-cols-1 gap-3 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] lg:gap-16 items-center py-2 sm:py-4 lg:py-8">
           <div className="min-w-0 text-left space-y-4 sm:space-y-8" data-aos="fade-up">
             {/* Greeting + Name */}
             <div className="space-y-4 sm:space-y-6">
@@ -185,7 +185,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[150px] sm:max-w-[220px] lg:max-w-none" data-aos="fade-left">
+          <div className="relative mx-auto hidden w-full max-w-[150px] sm:max-w-[220px] lg:block lg:max-w-none" data-aos="fade-left">
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl shadow-indigo-950/50">
               {safeProfile.image ? (
                 <img
