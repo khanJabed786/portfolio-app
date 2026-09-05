@@ -18,7 +18,7 @@ export function watchAuth(cb) {
 }
 
 export async function adminLogin(email, password) {
-  const cred = await signInWithEmailAndPassword(auth, email, password);
+  const cred = await signInWithEmailAndPassword(auth, email.trim().toLowerCase(), password);
   return cred.user;
 }
 

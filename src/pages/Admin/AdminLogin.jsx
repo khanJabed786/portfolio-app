@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toast from "../../components/common/Toast.jsx";
-import { adminLogin, isAdminUser } from "../../config/adminAuth.js";
+import { adminLogin, adminLogout, isAdminUser } from "../../config/adminAuth.js";
 
 export default function AdminLogin() {
   const nav = useNavigate();
@@ -26,6 +26,7 @@ export default function AdminLogin() {
       
       if (!isAdminUser(user)) {
         console.log("[AdminLogin] User not in admin allowlist. Email:", user.email, "UID:", user.uid);
+        await adminLogout();
         setToast({ open: true, type: "error", message: `Not approved as admin. Ask developer to add: ${user.uid}` });
         return;
       }
@@ -41,8 +42,16 @@ export default function AdminLogin() {
         errMsg = "User not found. Create account first or check email.";
       } else if (err.code === "auth/wrong-password") {
         errMsg = "Wrong password!";
+      } else if (err.code === "auth/invalid-credential") {
+        errMsg = "Email or password is incorrect.";
       } else if (err.code === "auth/invalid-email") {
         errMsg = "Invalid email format!";
+      } else if (err.code === "auth/too-many-requests") {
+        errMsg = "Too many attempts. Try again later.";
+      } else if (err.code === "auth/operation-not-allowed") {
+        errMsg = "Email/password login is disabled in Firebase Authentication.";
+      } else if (err.code === "auth/network-request-failed") {
+        errMsg = "Network error. Check your internet connection and try again.";
       }
       
       setToast({ open: true, type: "error", message: errMsg });
