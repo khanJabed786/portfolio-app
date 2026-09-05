@@ -92,21 +92,21 @@ export default function Hero() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Main Content */}
-        <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] gap-10 lg:gap-16 items-center py-2 sm:py-4 lg:py-8">
-          <div className="text-center lg:text-left space-y-6 sm:space-y-8" data-aos="fade-up">
+        <div className="grid grid-cols-[minmax(0,1.35fr)_minmax(105px,0.8fr)] gap-3 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] lg:gap-16 items-center py-2 sm:py-4 lg:py-8">
+          <div className="min-w-0 text-left space-y-4 sm:space-y-8" data-aos="fade-up">
             {/* Greeting + Name */}
             <div className="space-y-4 sm:space-y-6">
-              <p className="text-xs sm:text-sm font-semibold tracking-widest text-indigo-400 uppercase">Welcome to my portfolio</p>
+              <p className="text-[0.6rem] sm:text-sm font-semibold tracking-[0.12em] sm:tracking-widest text-indigo-400 uppercase">Welcome to my portfolio</p>
               
-              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight">
+              <h1 className="text-2xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight break-words">
                 <span className="bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">
                   {safeProfile.name}
                 </span>
               </h1>
 
               {/* Typewriter role */}
-              <div className="min-h-[2.5rem] sm:min-h-[3rem] flex items-center justify-center lg:justify-start">
-                <div className="text-xl sm:text-2xl md:text-3xl font-semibold">
+              <div className="min-h-[2.5rem] sm:min-h-[3rem] flex items-center justify-start">
+                <div className="text-sm sm:text-2xl md:text-3xl font-semibold">
                   <span className="text-white/90">I'm a </span>
                   <span style={{ color: currentColor }} className="transition-colors duration-300 font-bold">
                     {typed}
@@ -117,13 +117,13 @@ export default function Hero() {
             </div>
 
             {/* Intro text */}
-            <p className="min-h-[4.5rem] text-sm sm:text-base md:text-lg text-white/70 max-w-3xl mx-auto lg:mx-0 leading-relaxed">
+            <p className="min-h-[4.5rem] max-w-3xl text-sm sm:text-base md:text-lg font-semibold font-serif leading-relaxed text-white/85">
               {typedIntro}
               <span className="ml-1 inline-block w-0.5 h-5 bg-indigo-300/80 align-middle animate-pulse" />
             </p>
 
             {/* CTA Buttons - 3D Interactive */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:gap-4 justify-start pt-2 sm:pt-4">
               <a
                 href={safeProfile.ctas.primary.href}
                 onClick={() => onTrack("cta_hire_me")}
@@ -155,7 +155,7 @@ export default function Hero() {
             </div>
 
             {/* Social Links - 3D Interactive */}
-            <div className="flex flex-wrap gap-2 sm:gap-3 text-white/75 justify-center lg:justify-start pt-2 sm:pt-4">
+            <div className="flex flex-wrap gap-2 sm:gap-3 text-white/75 justify-start pt-2 sm:pt-4">
               {safeProfile.social.map((s) => (
                 <a
                   key={s.label}
@@ -185,7 +185,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-sm lg:max-w-none" data-aos="fade-left">
+          <div className="relative mx-auto w-full max-w-[150px] sm:max-w-[220px] lg:max-w-none" data-aos="fade-left">
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl shadow-indigo-950/50">
               {safeProfile.image ? (
                 <img
